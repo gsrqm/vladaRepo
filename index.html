@@ -68,29 +68,27 @@
                 alert('Please fill in both temperature and time.');
                 return;
             }
-
             try {
-                // Send a POST request to the worker
                 const response = await fetch('https://vlada-test-temps.guilherme-cf.workers.dev', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        temperature: parseFloat(temperature), // Ensure temperature is a float
-                        time: time, // Send time directly as entered
+                        temperature: parseFloat(temperature),
+                        time: time,
                     }),
                 });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert(`Success! Data stored: ${JSON.stringify(result)}`);
-                } else {
-                    const error = await response.json();
-                    alert(`Error: ${error.error}`);
+            
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
+            
+                const result = await response.json();
+                alert(`Success! Data stored: ${JSON.stringify(result)}`);
             } catch (err) {
-                alert('Failed to send the request. Please check your network and try again.');
+                console.error(err);
+                alert(`Failed to send the request. Error: ${err.message}`);
             }
         });
     </script>
