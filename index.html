@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <style>
+        h1 {
+            color: blue;
+            text-align: center;
+        }
+        h2 {
+            color: rebeccapurple;
+            text-align: center;
+        }
+
+        h3 {
+            color: red;
+            text-align: center;
+        }
+
+        iframe {
+            text-align: center;
+        }
+
+        a {
+            text-align: center;
+        }
+        .container {
+            border: 2px solid black;
+            height: 600px;
+            position: absolute;
+        }
+        form {
+            display: flex;
+            flex-direction: column; /* Stack inputs vertically */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            margin: 0 auto; /* Center form horizontally on the page */
+            height: 200px; /* Adjust as needed to center vertically relative to its parent */
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+    </head>
+    <body>
+    <h1>
+        Please submit a temperature reading.
+    </h1>
+    <h3>Note: Make sure the readings follow this format: <br>
+        "temperature": 36.3, <br>
+        "time": "2020-09-28T02:57:49Z"
+    </h3>
+<br>
+<br>
+    <h2>Today's temp</h2>
+    <form id="temperature-form" action="https://chatgpt-api.vsebas.workers.dev/" method="POST">
+      <input id="temperature" type="number" placeholder="temperature" step="0.1" required />
+      <input id="time" type="datetime-local" placeholder="time" required />
+      <button type="submit" value="Submit">Submit reading</button>
+    </form>
+    </body>
+</html>
