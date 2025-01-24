@@ -51,11 +51,48 @@
             "temperature": 36.3, <br>
             "time": "12:05"
         </h3>
-        <form>
-            <input type="number" step="0.01" placeholder="Temperature (e.g., 36.3)" required>
-            <input type="time" placeholder="Time (e.g., 12:05)" required>
-            <button type="button">Submit</button>
+        <form id="temperatureForm">
+            <input type="number" step="0.01" id="temperature" placeholder="Temperature (e.g., 36.3)" required>
+            <input type="time" id="time" placeholder="Time (e.g., 12:05)" required>
+            <button type="button" id="submitBtn">Submit</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', async () => {
+            // Get the temperature and time input values
+            const temperature = document.getElementById('temperature').value;
+            const time = document.getElementById('time').value;
+
+            if (!temperature || !time) {
+                alert('Please fill in both temperature and time.');
+                return;
+            }
+
+            try {
+                // Send a POST request to the worker
+                const response = await fetch('https://vlada-test-temps.guilherme-cf.workers.dev', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        temperature: parseFloat(temperature), // Ensure temperature is a float
+                        time: time, // Send time directly as entered
+                    }),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(`Success! Data stored: ${JSON.stringify(result)}`);
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.error}`);
+                }
+            } catch (err) {
+                alert('Failed to send the request. Please check your network and try again.');
+            }
+        });
+    </script>
 </body>
 </html>
